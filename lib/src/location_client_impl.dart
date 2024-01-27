@@ -8,6 +8,7 @@ import 'package:location_client/src/location_client.dart';
 import 'package:location_client/src/location_failure.dart';
 import 'package:location_client/src/location_position.dart';
 import 'package:logger/logger.dart';
+import 'package:map_launcher/map_launcher.dart';
 
 class LocationClientImpl implements LocationClient {
   final Logger? _logger;
@@ -552,6 +553,116 @@ class LocationClientImpl implements LocationClient {
 
       _logger?.e(
         '[ERROR] Requesting location permission - ${failure.toString()}',
+      );
+
+      _telemetryOnError?.call(failure);
+
+      return failure;
+    });
+  }
+
+  @override
+  Future<Result<double>> getDistanceBetween(
+      {required LocationPosition from, required LocationPosition to}) {
+    _logger?.d(
+      '[START] Getting distance between - ${from.toString()} and ${to.toString()}',
+    );
+
+    return Result.asyncGuard(() async {
+      final distance = Geolocator.distanceBetween(
+          from.latitude, from.longitude, to.latitude, to.longitude);
+
+      _logger?.d(
+        '[END] Getting distance between - ${from.toString()} and ${to.toString()} - $distance',
+      );
+
+      _telemetryOnSuccess?.call();
+
+      return distance;
+    }, onError: (e, s) {
+      if (e is Failure) {
+        return e;
+      }
+
+      final failure = LocationServiceUnknownFailure();
+
+      _logger?.e(
+        '[ERROR] Getting distance between - ${from.toString()} and ${to.toString()} - ${failure.toString()}',
+      );
+
+      _telemetryOnError?.call(failure);
+
+      return failure;
+    });
+  }
+
+  @override
+  Future<Result<List<AvailableMap>>> getMapProviders() async {
+    _logger?.d(
+      '[START] Getting map providers',
+    );
+
+    return Result.asyncGuard(() async {
+      final maps = await MapLauncher.installedMaps;
+
+      final mapProviders = maps.map((e) {
+        return AvailableMap(
+          icon: e.icon,
+          mapName: e.mapName,
+          mapType: e.mapType,
+        );
+      }).toList();
+
+      _logger?.d(
+        '[END] Getting map providers - ${mapProviders.toString()}',
+      );
+
+      _telemetryOnSuccess?.call();
+
+      return mapProviders;
+    }, onError: (e, s) {
+      if (e is Failure) {
+        return e;
+      }
+
+      final failure = LocationServiceUnknownFailure();
+
+      _logger?.e(
+        '[ERROR] Getting map providers - ${failure.toString()}',
+      );
+
+      _telemetryOnError?.call(failure);
+
+      return failure;
+    });
+  }
+
+  @override
+  Future<Result<void>> openMap(
+      {required LocationPosition location, required AvailableMap map}) async {
+    _logger?.d(
+      '[START] Opening map - ${location.toString()} - ${map.toString()}',
+    );
+
+    return Result.asyncGuard(() async {
+      await MapLauncher.showDirections(
+          mapType: map.mapType,
+          destination: Coords(location.latitude, location.longitude));
+
+      _logger?.d(
+        '[END] Opening map - ${location.toString()} - ${map.toString()}',
+      );
+
+      _telemetryOnSuccess?.call();
+    }, onError: (e, s) {
+      if (e is Failure) {
+        return e;
+      }
+
+      final failure = LocationServiceUnknownFailure();
+
+      _logger?.e(
+        '[ERROR] Opening map - ${location.toString()} - ${map.toString()} - ${failure.toString()}',
       );
 
       _telemetryOnError?.call(failure);

@@ -1,6 +1,7 @@
 import 'package:common_classes/common_classes.dart';
 import 'package:location_client/src/location_address.dart';
 import 'package:location_client/src/location_position.dart';
+import 'package:map_launcher/map_launcher.dart';
 
 abstract class LocationClient {
   /// Returns the current location of the user.
@@ -103,5 +104,35 @@ abstract class LocationClient {
   ///
   Future<Result<LocationPosition>> getLocationFromAddress({
     required LocationAddress address,
+  });
+
+  /// Returns the distance between two locations.
+  ///
+  /// If the distance is returned, it will return the distance.
+  ///
+  /// If something goes wrong, it will return a [Failure].
+  ///
+  Future<Result<double>> getDistanceBetween({
+    required LocationPosition from,
+    required LocationPosition to,
+  });
+
+  /// Get map providers from the device.
+  ///
+  /// If the map providers are returned, it will return the map providers.
+  ///
+  /// If something goes wrong, it will return a [Failure].
+  ///
+  Future<Result<List<AvailableMap>>> getMapProviders();
+
+  /// Opens the map.
+  ///
+  /// If the map is opened, it will return [Unit].
+  ///
+  /// If something goes wrong, it will return a [Failure].
+  ///
+  Future<Result<void>> openMap({
+    required LocationPosition location,
+    required AvailableMap map,
   });
 }
