@@ -1,0 +1,11 @@
+{
+    "@@locale": "es",
+    "locationPermissionDeniedForever": "Permiso de ubicación denegado para siempre. Por favor, vaya a la configuración de la aplicación y habilite el permiso de ubicación.",
+    "locationPermissionDenied": "Permiso de ubicación denegado. Por favor, habilite el permiso de ubicación.",
+    "locationServiceDisable": "Servicio de ubicación desactivado. Por favor, habilite el servicio de ubicación.",
+    "locationTimeout": "Tiempo de espera de ubicación. Por favor, inténtelo de nuevo.",
+    "locationUnknownError": "Error desconocido de ubicación. Por favor, inténtelo de nuevo.",
+    "addressNotFound": "Dirección no encontrada. Compruebe que la dirección sea correcta.",
+    "locationNotFound": "Ubicación no encontrada. Por favor, inténtelo de nuevo."
+    
+}

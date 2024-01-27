@@ -1,0 +1,10 @@
+{
+    "@@locale": "en",
+    "locationPermissionDeniedForever": "GEO Location permission denied forever. Please enable location permission from settings.",
+    "locationPermissionDenied": "GEO Location permission denied. Please enable location permission from settings.",
+    "locationServiceDisable": "Location service disabled. Please enable location service from settings.",
+    "locationTimeout": "Location timeout. Please try again.",
+    "locationUnknownError": "Unknown location error. Please try again.",
+    "addressNotFound": "Address not found. Please try again.",
+    "locationNotFound": "Location not found. Please try again."
+}
